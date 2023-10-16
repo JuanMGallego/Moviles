@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/buttonVolver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="30dp"
+            android:text="Volver"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp">
+
+        <TextView
+            android:id="@+id/textCalculadora"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Calculadora"
+            android:textSize="40dp"
+            android:textStyle="italic|bold"
+            android:textColor="#1433DF" />
+
+    </LinearLayout>
+
+        <TextView
+            android:id="@+id/textViewFactor1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="80dp"
+            android:text="Primer factor">
+
+        </TextView>
+
+        <EditText
+            android:id="@+id/editTextFactor1"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:inputType="numberDecimal">
+
+        </EditText>
+
+        <TextView
+            android:id="@+id/textViewFactor2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Segundo factor">
+
+        </TextView>
+
+        <EditText
+            android:id="@+id/editTextFactor2"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:inputType="numberDecimal">
+
+        </EditText>
+
+        <TextView
+            android:id="@+id/textViewTituloRes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Resultado:"
+            android:textSize="18dp"
+            android:textStyle="bold">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/textViewResultado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="0.0"
+            android:textSize="50dp"
+            android:textStyle="bold">
+
+        </TextView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="bottom|center"
+                android:padding="60dp"
+                android:background="#FDE1C9"
+                >
+
+                <Button
+                    android:id="@+id/buttonSumar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+" />
+
+                <Button
+                    android:id="@+id/buttonRestar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-" />
+
+                <Button
+                    android:id="@+id/buttonMultiplicar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="*" />
+
+                <Button
+                    android:id="@+id/buttonDividir"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="/" />
+
+            </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>
