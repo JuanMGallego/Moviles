@@ -22,6 +22,11 @@ class ImagenesAdapter(
                 .into(binding.imagenVista)
         }
 
+        var isDataVisible = false
+        binding.iconoContacto.setOnClickListener {
+
+        }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,5 +38,8 @@ class ImagenesAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.setImage(imagenes[position])
+        holder.itemView.setOnClickListener {
+            ImagenPulsadaListener.imagenPulsada(imagenes[position])
+        }
     }
 }
