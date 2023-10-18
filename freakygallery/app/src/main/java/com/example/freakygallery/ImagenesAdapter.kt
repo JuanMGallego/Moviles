@@ -5,15 +5,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.freakygallery.databinding.ImagenesBinding
 import com.example.freakygallery.databinding.ItemImagenBinding
 
 class ImagenesAdapter(
-    private val imagenes: List<Imagen>
+    private val imagenes: List<Imagen>,
+    private val listener: ImagenPulsadaListener
 ) : RecyclerView.Adapter<ImagenesAdapter.ViewHolder>() {
 
     class ViewHolder(private val binding: ItemImagenBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
         fun setImage(imagen: Imagen) {
 
             Glide
@@ -22,10 +23,7 @@ class ImagenesAdapter(
                 .into(binding.imagenVista)
         }
 
-        var isDataVisible = false
-        binding.iconoContacto.setOnClickListener {
 
-        }
 
     }
 
@@ -39,7 +37,7 @@ class ImagenesAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.setImage(imagenes[position])
         holder.itemView.setOnClickListener {
-            ImagenPulsadaListener.imagenPulsada(imagenes[position])
+            listener.imagenPulsada(imagenes[position])
         }
     }
 }
