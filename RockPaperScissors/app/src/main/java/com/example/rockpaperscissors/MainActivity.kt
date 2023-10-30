@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,13 +36,39 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun RockPaperScissorsScreen(modifier: Modifier=Modifier) {
+fun RockPaperScissorsScreen() {
 
-    var playerChoice = ""
-    var computerChoice = ""
-    var playerScore = 0
-    var computerScore = 0
-    var round = 0
+    var playerChoice by remember { mutableStateOf("") }
+    var computerChoice by remember { mutableStateOf(-1) }
+    var playerScore by remember { mutableStateOf(0) }
+    var computerScore by remember { mutableStateOf(0) }
+
+    var playerImg by remember { mutableStateOf(if (playerChoice.equals("rock")) {
+            R.drawable.rock
+        } else if (playerChoice.equals("paper")) {
+            R.drawable.paper
+        } else if (playerChoice.equals("scissors")) {
+            R.drawable.scissors
+        } else {
+            R.drawable.interrogation
+        })
+    }
+
+    var computerImg by remember { mutableStateOf(if (computerChoice == 0) {
+            R.drawable.rock
+        } else if (computerChoice == 1) {
+            R.drawable.paper
+        } else if (computerChoice == 2) {
+            R.drawable.scissors
+        } else {
+            R.drawable.interrogation
+        })
+    }
+
+    var winner by remember { mutableStateOf(0) }
+    var round by remember { mutableStateOf(0) }
+
+
 
     Column (modifier = Modifier.fillMaxWidth()){
 
@@ -134,7 +161,7 @@ fun RockPaperScissorsScreen(modifier: Modifier=Modifier) {
                 ) {
 
                     Image(
-                        painter = painterResource(id = R.drawable.interrogation),
+                        painter = painterResource(playerImg),
                         contentDescription = "Interrogation Player",
                         modifier = Modifier
                             .size(100.dp)
@@ -164,7 +191,7 @@ fun RockPaperScissorsScreen(modifier: Modifier=Modifier) {
                         ) {
 
                             Text(
-                                text = "0",
+                                text = computerScore.toString(),
                                 style = TextStyle(
                                     fontSize = 30.sp,
                                     fontWeight = FontWeight.Bold
@@ -199,7 +226,7 @@ fun RockPaperScissorsScreen(modifier: Modifier=Modifier) {
                         ) {
 
                             Text(
-                                text = "0",
+                                text = playerScore.toString(),
                                 style = TextStyle(
                                     fontSize = 30.sp,
                                     fontWeight = FontWeight.Bold
@@ -222,7 +249,7 @@ fun RockPaperScissorsScreen(modifier: Modifier=Modifier) {
                 ) {
 
                     Image(
-                        painter = painterResource(id = R.drawable.interrogation),
+                        painter = painterResource(computerImg),
                         contentDescription = "Interrogation Computer",
                         modifier = Modifier
                             .size(100.dp)
@@ -261,9 +288,19 @@ fun RockPaperScissorsScreen(modifier: Modifier=Modifier) {
                             BorderStroke(4.dp, Color.Gray),
                             RoundedCornerShape(16.dp)
                         )
-                        .clickable {
-                            playerChoice = "rock"
-                        }
+                        .clickable(
+                            onClick = {
+                                playerChoice = "rock"
+                                computerChoice = Random.nextInt(0, 2)
+                                winner = resultDuel(playerChoice, computerChoice)
+                                if (winner == 1) {
+                                    playerScore++
+                                } else if (winner == 2) {
+                                    computerScore++
+                                }
+                                round++
+                            }
+                        )
                 )
 
                 Image(
@@ -277,9 +314,19 @@ fun RockPaperScissorsScreen(modifier: Modifier=Modifier) {
                             BorderStroke(4.dp, Color.Gray),
                             RoundedCornerShape(16.dp)
                         )
-                        .clickable {
-                            playerChoice = "paper"
-                        }
+                        .clickable(
+                            onClick = {
+                                playerChoice = "paper"
+                                computerChoice = Random.nextInt(0, 2)
+                                winner = resultDuel(playerChoice, computerChoice)
+                                if (winner == 1) {
+                                    playerScore++
+                                } else if (winner == 2) {
+                                    computerScore++
+                                }
+                                round++
+                            }
+                        )
                 )
 
                 Image(
@@ -293,15 +340,43 @@ fun RockPaperScissorsScreen(modifier: Modifier=Modifier) {
                             BorderStroke(4.dp, Color.Gray),
                             RoundedCornerShape(16.dp)
                         )
-                        .clickable {
-                            playerChoice = "sciss"
-                        }
+                        .clickable(
+                            onClick = {
+                                playerChoice = "sciss"
+                                computerChoice = Random.nextInt(0, 2)
+                                winner = resultDuel(playerChoice, computerChoice)
+                                if (winner == 1) {
+                                    playerScore++
+                                } else if (winner == 2) {
+                                    computerScore++
+                                }
+                                round++
+                            }
+                        )
                 )
 
             }
 
         }
+
     }
 
 }
 
+fun resultDuel(playerChoice: String, computerChoice: Int): Int {
+
+    var playerWins = 0
+
+    if (
+        (playerChoice.equals("rock") && computerChoice == 2) ||
+        (playerChoice.equals("paper") && computerChoice == 0) ||
+        (playerChoice.equals("sciss") && computerChoice == 1)
+    ) {
+        playerWins = 1
+    } else {
+        playerWins = 2
+    }
+
+    return playerWins
+
+}
