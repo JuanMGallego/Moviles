@@ -1,8 +1,11 @@
 package com.example.rockpaperscissors
 
+import android.content.Context
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -20,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlin.random.Random
@@ -29,46 +33,57 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
 
-            RockPaperScissorsScreen()
+            RockPaperScissorsScreen(this)
 
         }
     }
 }
 
 @Composable
-fun RockPaperScissorsScreen() {
+fun RockPaperScissorsScreen(context: Context) {
 
     var playerChoice by remember { mutableStateOf("") }
     var computerChoice by remember { mutableStateOf(-1) }
     var playerScore by remember { mutableStateOf(0) }
     var computerScore by remember { mutableStateOf(0) }
 
-    var playerImg by remember { mutableStateOf(if (playerChoice.equals("rock")) {
-            R.drawable.rock
-        } else if (playerChoice.equals("paper")) {
-            R.drawable.paper
-        } else if (playerChoice.equals("scissors")) {
-            R.drawable.scissors
-        } else {
-            R.drawable.interrogation
-        })
+    var playerImg by remember { mutableStateOf(R.drawable.interrogation) }
+
+    if (playerChoice.equals("rock")) {
+        playerImg = R.drawable.rock
+    } else if (playerChoice.equals("paper")) {
+        playerImg = R.drawable.paper
+    } else if (playerChoice.equals("scissors")) {
+        playerImg = R.drawable.scissors
     }
 
-    var computerImg by remember { mutableStateOf(if (computerChoice == 0) {
-            R.drawable.rock
-        } else if (computerChoice == 1) {
-            R.drawable.paper
-        } else if (computerChoice == 2) {
-            R.drawable.scissors
-        } else {
-            R.drawable.interrogation
-        })
+
+    var computerImg by remember { mutableStateOf(R.drawable.interrogation)}
+
+    if (computerChoice == 0) {
+        computerImg = R.drawable.rock
+    } else if (computerChoice == 1) {
+        computerImg = R.drawable.paper
+    } else if (computerChoice == 2) {
+        computerImg = R.drawable.scissors
     }
+
 
     var winner by remember { mutableStateOf(0) }
     var round by remember { mutableStateOf(0) }
 
+    var centralText by remember { mutableStateOf(
 
+        if ((round == 5) && (playerScore > computerScore)) {
+            "GANASTE!"
+        } else if ((round == 5) && (playerScore < computerScore)) {
+            "PERDISTE :("
+        } else if ((round == 5) && (playerScore < computerScore)){
+            "EMPATE"
+        } else {
+            "VS"
+        })
+    }
 
     Column (modifier = Modifier.fillMaxWidth()){
 
@@ -127,13 +142,6 @@ fun RockPaperScissorsScreen() {
                 )
 
             }
-
-            Text(
-                text = "",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(40.dp)
-            )
 
         }
 
@@ -209,7 +217,7 @@ fun RockPaperScissorsScreen() {
                         ) {
 
                             Text(
-                                text = "VS",
+                                text = centralText,
                                 style = TextStyle(
                                     fontSize = 40.sp,
                                     fontWeight = FontWeight.Bold
@@ -290,15 +298,25 @@ fun RockPaperScissorsScreen() {
                         )
                         .clickable(
                             onClick = {
-                                playerChoice = "rock"
-                                computerChoice = Random.nextInt(0, 2)
-                                winner = resultDuel(playerChoice, computerChoice)
-                                if (winner == 1) {
-                                    playerScore++
-                                } else if (winner == 2) {
-                                    computerScore++
+
+                                if (round < 5) {
+
+                                    playerChoice = "rock"
+                                    computerChoice = Random.nextInt(0, 2)
+                                    winner = resultDuel(playerChoice, computerChoice)
+                                    if (winner == 1) {
+                                        playerScore++
+                                        showToast(context, "Ganaste la ronda!")
+                                    } else if (winner == 2) {
+                                        computerScore++
+                                        showToast(context, "Perdiste esta ronda :(")
+                                    } else {
+                                        showToast(context, "Empate!")
+                                    }
+                                    round++
+
                                 }
-                                round++
+
                             }
                         )
                 )
@@ -316,15 +334,25 @@ fun RockPaperScissorsScreen() {
                         )
                         .clickable(
                             onClick = {
-                                playerChoice = "paper"
-                                computerChoice = Random.nextInt(0, 2)
-                                winner = resultDuel(playerChoice, computerChoice)
-                                if (winner == 1) {
-                                    playerScore++
-                                } else if (winner == 2) {
-                                    computerScore++
+
+                                if (round < 5) {
+
+                                    playerChoice = "paper"
+                                    computerChoice = Random.nextInt(0, 2)
+                                    winner = resultDuel(playerChoice, computerChoice)
+                                    if (winner == 1) {
+                                        playerScore++
+                                        showToast(context, "Ganaste la ronda!")
+                                    } else if (winner == 2) {
+                                        computerScore++
+                                        showToast(context, "Perdiste esta ronda :(")
+                                    } else {
+                                        showToast(context, "Empate!")
+                                    }
+                                    round++
+
                                 }
-                                round++
+
                             }
                         )
                 )
@@ -342,15 +370,25 @@ fun RockPaperScissorsScreen() {
                         )
                         .clickable(
                             onClick = {
-                                playerChoice = "sciss"
-                                computerChoice = Random.nextInt(0, 2)
-                                winner = resultDuel(playerChoice, computerChoice)
-                                if (winner == 1) {
-                                    playerScore++
-                                } else if (winner == 2) {
-                                    computerScore++
+
+                                if (round < 5) {
+
+                                    playerChoice = "sciss"
+                                    computerChoice = Random.nextInt(0, 2)
+                                    winner = resultDuel(playerChoice, computerChoice)
+                                    if (winner == 1) {
+                                        playerScore++
+                                        showToast(context, "Ganaste la ronda!")
+                                    } else if (winner == 2) {
+                                        computerScore++
+                                        showToast(context, "Perdiste esta ronda :(")
+                                    } else {
+                                        showToast(context, "Empate!")
+                                    }
+                                    round++
+
                                 }
-                                round++
+
                             }
                         )
                 )
@@ -373,10 +411,18 @@ fun resultDuel(playerChoice: String, computerChoice: Int): Int {
         (playerChoice.equals("sciss") && computerChoice == 1)
     ) {
         playerWins = 1
-    } else {
+    } else if (
+        (playerChoice.equals("rock") && computerChoice == 1) ||
+        (playerChoice.equals("paper") && computerChoice == 2) ||
+        (playerChoice.equals("sciss") && computerChoice == 0)
+    ){
         playerWins = 2
     }
 
     return playerWins
 
+}
+
+private fun showToast(context: Context, message: String) {
+    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
 }
