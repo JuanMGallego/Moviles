@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -22,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -41,8 +43,6 @@ class MainActivity : ComponentActivity() {
 
             AppNavigation()
 
-            RockPaperScissorsScreen(this)
-
         }
     }
 }
@@ -50,7 +50,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()
-
     NavHost(
         navController = navController,
         startDestination = "loginPlayer"
@@ -59,7 +58,12 @@ fun AppNavigation() {
             LoginPlayer(navController)
         }
         composable("game") {
-            RockPaperScissorsScreen()
+
+            RockPaperScissorsScreen(LocalContext.current, navController)
+        }
+        composable("scoreboard") {
+
+            Scoreboard()
         }
     }
 }
@@ -112,11 +116,15 @@ fun LoginPlayer(navController: NavHostController) {
         )
         Box(modifier = Modifier.padding(20.dp)) {
             Button(
+
                 onClick = { navController.navigate("game") },
                 modifier = Modifier
                     .width(100.dp)
-                    .height(50.dp)
-                    .clip(RoundedCornerShape(2.dp))
+                    .height(50.dp),
+                shape = (RoundedCornerShape(0.dp)),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF105ACA),
+                    contentColor = Color.White)
             ) {
                 Text(text = "Enviar")
             }
@@ -125,9 +133,11 @@ fun LoginPlayer(navController: NavHostController) {
 }
 
 @Composable
-fun RockPaperScissorsScreen(context: Context) {
+fun RockPaperScissorsScreen(context: Context, navController: NavHostController) {
 
     var playerChoice by remember { mutableStateOf("") }
+    var centralText by remember { mutableStateOf("VS") }
+    var textSize by remember { mutableStateOf(40)}
     var computerChoice by remember { mutableStateOf(-1) }
     var playerScore by remember { mutableStateOf(0) }
     var computerScore by remember { mutableStateOf(0) }
@@ -138,7 +148,7 @@ fun RockPaperScissorsScreen(context: Context) {
         playerImg = R.drawable.rock
     } else if (playerChoice.equals("paper")) {
         playerImg = R.drawable.paper
-    } else if (playerChoice.equals("scissors")) {
+    } else if (playerChoice.equals("sciss")) {
         playerImg = R.drawable.scissors
     }
 
@@ -157,18 +167,20 @@ fun RockPaperScissorsScreen(context: Context) {
     var winner by remember { mutableStateOf(0) }
     var round by remember { mutableStateOf(0) }
 
-    var centralText by remember { mutableStateOf(
-
         if ((round == 5) && (playerScore > computerScore)) {
-            "GANASTE!"
+            textSize = 30
+            centralText = "GANASTE!"
+            navController.navigate("Scoreboard")
+
         } else if ((round == 5) && (playerScore < computerScore)) {
-            "PERDISTE :("
+            textSize = 25
+            centralText = "PERDISTE :("
+            navController.navigate("Scoreboard")
         } else if ((round == 5) && (playerScore == computerScore)){
-            "EMPATE"
-        } else {
-            "VS"
-        })
-    }
+            textSize = 30
+            centralText = "EMPATE"
+            navController.navigate("Scoreboard")
+        }
 
     Column (modifier = Modifier.fillMaxWidth()){
 
@@ -304,7 +316,7 @@ fun RockPaperScissorsScreen(context: Context) {
                             Text(
                                 text = centralText,
                                 style = TextStyle(
-                                    fontSize = 40.sp,
+                                    fontSize = textSize.sp,
                                     fontWeight = FontWeight.Bold
                                 )
                             )
@@ -388,7 +400,7 @@ fun RockPaperScissorsScreen(context: Context) {
 
                                     playerChoice = "rock"
                                     computerChoice = Random.nextInt(0, 2)
-                                    winner = resultDuel(playerChoice, computerChoice)
+                                    winner = duelResult(playerChoice, computerChoice)
                                     if (winner == 1) {
                                         playerScore++
                                         showToast(context, "Ganaste la ronda!")
@@ -424,7 +436,7 @@ fun RockPaperScissorsScreen(context: Context) {
 
                                     playerChoice = "paper"
                                     computerChoice = Random.nextInt(0, 2)
-                                    winner = resultDuel(playerChoice, computerChoice)
+                                    winner = duelResult(playerChoice, computerChoice)
                                     if (winner == 1) {
                                         playerScore++
                                         showToast(context, "Ganaste la ronda!")
@@ -460,7 +472,7 @@ fun RockPaperScissorsScreen(context: Context) {
 
                                     playerChoice = "sciss"
                                     computerChoice = Random.nextInt(0, 2)
-                                    winner = resultDuel(playerChoice, computerChoice)
+                                    winner = duelResult(playerChoice, computerChoice)
                                     if (winner == 1) {
                                         playerScore++
                                         showToast(context, "Ganaste la ronda!")
@@ -486,7 +498,22 @@ fun RockPaperScissorsScreen(context: Context) {
 
 }
 
-fun resultDuel(playerChoice: String, computerChoice: Int): Int {
+@Composable
+fun Scoreboard() {
+
+    Column (
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(color = Color(0xFF899399))
+            .padding(50.dp)
+    ) {
+
+    }
+
+}
+
+fun duelResult(playerChoice: String, computerChoice: Int): Int {
 
     var playerWins = 0
 
