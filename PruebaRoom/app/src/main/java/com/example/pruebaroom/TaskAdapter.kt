@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.example.pruebaroom.databinding.ItemTaskBinding
 import com.example.pruebaroom.entidades.TaskEntity
 
 class TasksAdapter(
@@ -27,39 +29,47 @@ class TasksAdapter(
         )                           // Muestra el item en la vista (ver más adelante)
     }
 
-    override fun onCreateViewHolder(
-        parent: ViewGroup,
-        viewType: Int
-    ): ViewHolder {    // Contenedor de la vista (holder) y la posición de la tarea en la lista (position)
-        val layoutInflater =
-            LayoutInflater.from(parent.context)                       // Se instancia el Layout para la vista
-        return ViewHolder(
-            layoutInflater.inflate(
-                R.layout.item_task,
-                parent,
-                false
-            )
-        )   // Devuelve la vista inflando el layout del item
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
 
     override fun getItemCount(): Int {
         return tasks.size     // Devuelve el número de tareas de la lista
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {     // Clase con la vista
-        val tvTask =
-            view.findViewById<TextView>(R.id.tvTask)         // instancia del Textview de la vista
-        val cbIsDone =
-            view.findViewById<CheckBox>(R.id.cbIsDone)     // instancia del Checkbox de la vista
+    class ViewHolder(private val binding: ItemTaskBinding) :
+        RecyclerView.ViewHolder(binding.root) {     // Clase con la vista
+        fun bind(contacto: Contacto) {
+            binding.nombre.text = contacto.nombre
+            binding.tfno.text = contacto.tfno
+            binding.iconoContacto.setImageResource(if (contacto.isMale) R.drawable.mancontact else R.drawable.womancontact)
+
+            var isDataVisible = false
+            var inicial=""
+            var palabras = binding.nombre.text.split(" ")
+            for (i in 0 until palabras.size) {
+                inicial += palabras[i][0]
+            }
+            binding.iniciales.text=inicial
+
+            binding.iconoContacto.setOnClickListener {
+                isDataVisible = !isDataVisible
+                if (isDataVisible) {
+                    binding.iniciales.visibility = View.GONE
+                    binding.datosContacto.visibility = View.VISIBLE
+                } else {
+                    binding.iniciales.visibility = View.VISIBLE
+                    binding.datosContacto.visibility = View.GONE
+                }
+            }
+        }    // instancia del Checkbox de la vista
 
         fun bind(                                   // función que une los elementos en la vista y prepara los listeners
             task: TaskEntity,
             checkTask: (TaskEntity) -> Unit,
             deleteTask: (TaskEntity) -> Unit
         ) {
-            tvTask.text = task.name
-            cbIsDone.isChecked = task.isDone
-            cbIsDone.setOnClickListener { checkTask(task) }
+            binding.nombre.text = task.name
+            binding.tfno.text = task.tfno
             itemView.setOnClickListener { deleteTask(task) }
         }
     }

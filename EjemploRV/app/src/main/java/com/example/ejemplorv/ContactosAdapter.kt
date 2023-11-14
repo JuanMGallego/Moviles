@@ -14,7 +14,7 @@ class ContactosAdapter(
     private val contactoPulsadoListener: ContactoPulsadoListener
 ) : RecyclerView.Adapter<ContactosAdapter.ViewHolder>() {
 
-    class ViewHolder(private val binding: ItemContactoBinding) :
+        class ViewHolder(private val binding: ItemContactoBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(contacto: Contacto) {

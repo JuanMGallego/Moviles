@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Switch
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.pruebaroom.entidades.TaskEntity
@@ -25,11 +26,13 @@ import kotlinx.coroutines.runBlocking
             tasks = ArrayList()         // Se prepara la lista
             getTasks()                  // Se carga la lista de tareas a través del DAO
             findViewById< Button>(R.id.btnAddTask).setOnClickListener {
-                addTask(TaskEntity(name = findViewById<EditText>(R.id.etTask).text.toString()))}
+                addTask(TaskEntity(name = findViewById<EditText>(R.id.etName).text.toString()))}
         }
 
         fun clearFocus(){
-            findViewById<EditText>(R.id.etTask).setText("") // Borra el texto en el EditText
+            findViewById<EditText>(R.id.etName).setText("") // Borra el texto en el EditText del nombre
+            findViewById<EditText>(R.id.etPhone).setText("") // Borra el texto en el EditText del telefono
+            findViewById<Switch>(R.id.etPhone).isChecked = false // Desactiva el Sitch
         }
 
         fun Context.hideKeyboard() {    // Oculta el teclado de texto
