@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "752744971915",
+    "project_id": "rockpaperscissors-956df",
+    "storage_bucket": "rockpaperscissors-956df.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:752744971915:android:d6b7e94014dff86d801e8e",
+        "android_client_info": {
+          "package_name": "com.example.fbrockpaperscissors"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvYvxceFUoeVV6mxzM6iQV_JwjopLKbXI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
