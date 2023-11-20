@@ -184,6 +184,7 @@ fun RockPaperScissorsScreen(context: Context, navController: NavHostController) 
     } else if ((round == 5) && (playerScore < computerScore)) {
         textSize = 25
         centralText = "PERDISTE :("
+        addScore(score: Score)
         navController.navigate("Scoreboard")
     } else if ((round == 5) && (playerScore == computerScore)){
         textSize = 30
