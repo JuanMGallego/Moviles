@@ -30,6 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.ViewModel
 import kotlin.random.Random
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -61,7 +62,8 @@ fun AppNavigation() {
         startDestination = "loginPlayer"
     ) {
         composable("loginPlayer") {
-            LoginPlayer(navController)
+
+            LoginPlayer(navController, )
         }
         composable("game") {
 
@@ -76,64 +78,30 @@ fun AppNavigation() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LoginPlayer(navController: NavHostController) {
+fun LoginPlayer(
+    navController: NavHostController,
+    state: SignInState,
+    onSignInClick: () -> Unit
+) {
+    val context = LocalContext.current
+    LaunchedEffect(key1 = state.signInError) {
+        state.signInError?.let { error ->
+            Toast.makeText(
+                context,
+                error,
+                Toast.LENGTH_LONG
+            ).show()
+        }
+    }
 
-    var user by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-
-    Column (
-        horizontalAlignment = Alignment.CenterHorizontally,
+    Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color(0xFF67A4C5))
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
     ) {
-        Spacer(modifier = Modifier.height(100.dp))
-        Image(
-            painter = painterResource(id = R.drawable.pptlogo),
-            contentDescription = "logo app",
-            modifier = Modifier
-                .size(250.dp)
-                .padding(40.dp)
-        )
-        TextField(
-            value = user,
-            onValueChange = {user = it},
-
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Email
-            ),
-            placeholder = { Text(text = "Usuario") },
-            modifier = Modifier
-                .width(300.dp)
-                .fillMaxWidth()
-                .padding(8.dp)
-        )
-        TextField(
-            value = password,
-            onValueChange = {password = it},
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Password
-            ),
-            placeholder = { Text(text = "Contraseña") },
-            modifier = Modifier
-                .width(300.dp)
-                .fillMaxWidth()
-                .padding(8.dp)
-        )
-        Box(modifier = Modifier.padding(20.dp)) {
-            Button(
-
-                onClick = { navController.navigate("game") },
-                modifier = Modifier
-                    .width(100.dp)
-                    .height(50.dp),
-                shape = (RoundedCornerShape(0.dp)),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF105ACA),
-                    contentColor = Color.White)
-            ) {
-                Text(text = "Enviar")
-            }
+        Button(onClick = onSignInClick) {
+            Text(text = "Sign in")
         }
     }
 }
@@ -180,11 +148,9 @@ fun RockPaperScissorsScreen(context: Context, navController: NavHostController) 
         textSize = 30
         centralText = "GANASTE!"
         navController.navigate("Scoreboard")
-
     } else if ((round == 5) && (playerScore < computerScore)) {
         textSize = 25
         centralText = "PERDISTE :("
-        addScore(score: Score)
         navController.navigate("Scoreboard")
     } else if ((round == 5) && (playerScore == computerScore)){
         textSize = 30
