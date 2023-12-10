@@ -46,7 +46,7 @@ private fun ItemUI(context: Context, instrumento: Instrumento) {
 }
 
 @Composable
-fun LazyColumnJuego(context: Context, instrumentos: List<Instrumento>){
+fun LazyColumnJuego(instrumentos: List<Instrumento>){
 
     var isPlaying by remember { mutableStateOf(false) }
     var mediaPlayer: MediaPlayer? by remember { mutableStateOf(null) }
@@ -57,6 +57,7 @@ fun LazyColumnJuego(context: Context, instrumentos: List<Instrumento>){
     val accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
 
     DisposableEffect(context) {
+        val mp = MediaPlayer.create(context, R.raw.cristal_roto)
         val sensorListener = object : SensorEventListener {
             override fun onSensorChanged(event: SensorEvent?) {
                 event?.let {
@@ -66,10 +67,9 @@ fun LazyColumnJuego(context: Context, instrumentos: List<Instrumento>){
 
                     val acceleration = x * x + y * y + z * z
 
-                    if (acceleration > 20f) {
+                    if (acceleration > 1) {
                         if (!isPlaying) {
                             isPlaying = true
-                            val mp = MediaPlayer.create(context, R.raw.cristal_roto)
                             mp.start()
                         }
                     }
@@ -80,7 +80,7 @@ fun LazyColumnJuego(context: Context, instrumentos: List<Instrumento>){
             }
         }
 
-        sensorManager.registerListener(sensorListener, accelerometerSensor, SensorManager.SENSOR_DELAY_NORMAL)
+        sensorManager.registerListener(sensorListener, accelerometerSensor, SensorManager.SENSOR_DELAY_FASTEST)
 
         onDispose {
             sensorManager.unregisterListener(sensorListener)

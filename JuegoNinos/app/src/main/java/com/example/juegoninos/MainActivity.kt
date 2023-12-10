@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
                     val repository = Repository()
                     val instrumento = repository.getAllInstrumentos()
 
-                    LazyColumnJuego(this, instrumentos = instrumento)
+                    LazyColumnJuego(instrumentos = instrumento)
 
                 }
             }
