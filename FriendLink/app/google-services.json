@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "191119152499",
+    "project_id": "friendlink-3abb0",
+    "storage_bucket": "friendlink-3abb0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:191119152499:android:421985e60b29d4469de106",
+        "android_client_info": {
+          "package_name": "com.example.friendlink"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-Tgq4gaq4eITFpEP_KwP5mmLspAn4quI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">FriendLink</string>
+    <string name="friendLink">FriendLink</string>
+    <string name="beAlwaysConnected">Be Always Connected</string>
+    <string name="login">Login</string>
+    <string name="app_logo">App Logo</string>
+    <string name="register">Register</string>
+</resources>

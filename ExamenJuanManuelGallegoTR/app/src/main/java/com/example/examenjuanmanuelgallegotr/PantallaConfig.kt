@@ -16,8 +16,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.navigation.NavHostController
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
-
-
 @Composable
 fun PantallaConfig (navHostController: NavHostController) {
 
